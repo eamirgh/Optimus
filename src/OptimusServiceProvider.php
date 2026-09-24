@@ -15,6 +15,7 @@ use Eamirgh\Optimus\Optimization\SecondaryOptimizer;
 use Eamirgh\Optimus\Support\OptimusUrlGenerator;
 use Eamirgh\Optimus\Http\Controllers\OptimusController;
 use Eamirgh\Optimus\Commands\ClearStaleCacheCommand;
+use Eamirgh\Optimus\Commands\PublishSkillCommand;
 use Eamirgh\Optimus\View\Components\Image;
 use Eamirgh\Optimus\View\Components\Link;
 use Eamirgh\Optimus\View\Components\Script;
@@ -97,6 +98,7 @@ class OptimusServiceProvider extends ServiceProvider
 
             $this->commands([
                 ClearStaleCacheCommand::class,
+                PublishSkillCommand::class,
             ]);
         }
 

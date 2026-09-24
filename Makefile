@@ -22,6 +22,9 @@ test-coverage: ## Run PHPUnit test suite with code coverage
 benchmark: ## Run the performance benchmark suite
 	php benchmarks/benchmark.php
 
+skill: ## Publish the Optimus agent skill (SKILL.md)
+	php artisan optimus:skill
+
 docs-dev: ## Start VitePress documentation dev server
 	npm run docs:dev
 

@@ -22,7 +22,15 @@ Publish the package configuration:
 php artisan vendor:publish --tag=optimus-config
 ```
 
-This creates `config/optimus.php` in your Laravel application.
+Publish AI Agent Skill:
+
+```bash
+php artisan optimus:skill
+# or custom path:
+php artisan optimus:skill --path=.cursor/rules/optimus.md
+```
+
+This publishes `SKILL.md` directly into `.agents/skills/optimus/SKILL.md` so coding assistants automatically apply Optimus best practices.
 
 ## Quick Start: `<x-image>`
 
