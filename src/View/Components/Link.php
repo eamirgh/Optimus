@@ -8,16 +8,21 @@ use Illuminate\Contracts\View\View;
 class Link extends Component
 {
     protected static bool $observerInjected = false;
+    public bool $prefetch;
+    public bool $preload;
 
     public function __construct(
         public string $href,
-        public bool $prefetch = true,
-        public bool $preload = false,
+        bool|string $prefetch = true,
+        bool|string $preload = false,
         public ?string $as = null,
         public ?string $rel = null,
         public ?string $class = null,
         public array|string|null $preconnect = null
-    ) {}
+    ) {
+        $this->prefetch = is_bool($prefetch) ? $prefetch : filter_var($prefetch, FILTER_VALIDATE_BOOLEAN);
+        $this->preload = is_bool($preload) ? $preload : filter_var($preload, FILTER_VALIDATE_BOOLEAN);
+    }
 
     public function render(): View|string
     {
@@ -54,19 +59,15 @@ HTML;
 
         $relAttr = ! empty($relParts) ? ' rel="' . implode(' ', $relParts) . '"' : '';
 
-        return function (array $data) use ($classAttr, $dataPrefetch, $relAttr, $hintsHtml, $script) {
-            $slot = $data['slot'] ?? '';
-            $anchor = sprintf(
-                '<a href="%s"%s%s%s>%s</a>',
-                htmlspecialchars($this->href, ENT_QUOTES, 'UTF-8'),
-                $classAttr,
-                $relAttr,
-                $dataPrefetch,
-                $slot
-            );
-
-            return $hintsHtml . $anchor . $script;
-        };
+        return sprintf(
+            '%s<a href="%s"%s%s%s>{{ $slot }}</a>%s',
+            $hintsHtml,
+            htmlspecialchars($this->href, ENT_QUOTES, 'UTF-8'),
+            $classAttr,
+            $relAttr,
+            $dataPrefetch,
+            $script
+        );
     }
 
     public static function resetObserverState(): void

@@ -11,22 +11,34 @@ use Illuminate\Contracts\View\View;
 
 class Image extends Component
 {
+    public ?int $width;
+    public ?int $height;
+    public ?int $quality;
+    public bool $fill;
+    public bool $picture;
+
     public function __construct(
         public string $src,
         public string $alt = '',
-        public ?int $width = null,
-        public ?int $height = null,
+        int|string|null $width = null,
+        int|string|null $height = null,
         public string $fit = 'cover',
-        public ?int $quality = null,
+        int|string|null $quality = null,
         public string $loading = 'lazy',
         public string $decoding = 'async',
-        public bool $fill = false,
+        bool|string $fill = false,
         public ?string $placeholder = null,
         public ?string $blurhash = null,
         public string $placeholderColor = '#e2e8f0',
-        public bool $picture = true,
+        bool|string $picture = true,
         public ?string $class = null
-    ) {}
+    ) {
+        $this->width = ($width !== null && $width !== '') ? (int) $width : null;
+        $this->height = ($height !== null && $height !== '') ? (int) $height : null;
+        $this->quality = ($quality !== null && $quality !== '') ? (int) $quality : null;
+        $this->fill = is_bool($fill) ? $fill : filter_var($fill, FILTER_VALIDATE_BOOLEAN);
+        $this->picture = is_bool($picture) ? $picture : filter_var($picture, FILTER_VALIDATE_BOOLEAN);
+    }
 
     public function render(): View|string
     {

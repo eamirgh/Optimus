@@ -1,5 +1,9 @@
 # Laravel Optimus 🚀
 
+[![Tests & Benchmarks](https://github.com/eamirgh/optimus/actions/workflows/tests.yml/badge.svg)](https://github.com/eamirgh/optimus/actions/workflows/tests.yml)
+[![Deploy Documentation](https://github.com/eamirgh/optimus/actions/workflows/docs.yml/badge.svg)](https://github.com/eamirgh/optimus/actions/workflows/docs.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 High-performance image and asset performance optimization engine for Laravel 11, 12, and 13.
 
 ## Features
@@ -23,11 +27,13 @@ composer require eamirgh/optimus
 php artisan vendor:publish --tag=optimus-config
 ```
 
-## Running Tests & Benchmarks
+## Running Tests, Benchmarks & Docs
 
 ```bash
 cd optimus
-composer install
-vendor/bin/phpunit
-php benchmarks/benchmark.php
+make install       # Install composer and npm dependencies
+make test          # Run PHPUnit test suite
+make benchmark     # Run performance benchmark suite
+make docs-dev      # Start local VitePress docs server
+make docs-build    # Build production docs
 ```

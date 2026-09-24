@@ -14,6 +14,12 @@ class TestProductModel extends Model
     use HasOptimusImages;
 
     protected $guarded = [];
+
+    public function triggerSaved(): void
+    {
+        $this->syncChanges();
+        $this->fireModelEvent('saved', false);
+    }
 }
 
 class AsyncGenerationTest extends TestCase
@@ -59,7 +65,7 @@ class AsyncGenerationTest extends TestCase
 
         // Change the image attribute
         $product->image = 'products/updated.png';
-        $product->fireModelEvent('saved', false);
+        $product->triggerSaved();
 
         Queue::assertPushed(GenerateImageVariantsJob::class, function ($job) {
             return $job->sourcePath === 'products/updated.png';

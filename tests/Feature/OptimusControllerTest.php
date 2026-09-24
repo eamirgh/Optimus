@@ -58,7 +58,10 @@ class OptimusControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'image/png');
-        $response->assertHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        $cacheControl = (string) $response->headers->get('Cache-Control');
+        $this->assertStringContainsString('max-age=31536000', $cacheControl);
+        $this->assertStringContainsString('public', $cacheControl);
+        $this->assertStringContainsString('immutable', $cacheControl);
         $this->assertNotEmpty($response->headers->get('ETag'));
         $this->assertNotEmpty($response->getContent());
 

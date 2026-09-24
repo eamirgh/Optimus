@@ -13,7 +13,11 @@ trait HasOptimusImages
             $imageAttributes = $model->optimusImages();
 
             foreach ($imageAttributes as $attr) {
-                if ($model->wasChanged($attr) && ! empty($model->{$attr})) {
+                $hasChanged = $model->wasChanged($attr)
+                    || ($model->wasRecentlyCreated && ! empty($model->{$attr}))
+                    || $model->isDirty($attr);
+
+                if ($hasChanged && ! empty($model->{$attr})) {
                     GenerateImageVariantsJob::dispatch($model->{$attr});
                 }
             }

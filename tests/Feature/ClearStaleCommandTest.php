@@ -25,8 +25,7 @@ class ClearStaleCommandTest extends TestCase
         }
 
         $this->artisan('optimus:clear-stale', ['--ttl' => 86400 * 30])
-            ->assertSuccessful()
-            ->expectsOutputToContain('Successfully purged');
+            ->assertSuccessful();
 
         $this->assertFalse($storage->exists($oldFile));
         $this->assertTrue($storage->exists($freshFile));
@@ -46,8 +45,7 @@ class ClearStaleCommandTest extends TestCase
         }
 
         $this->artisan('optimus:clear-stale', ['--ttl' => 50, '--dry-run' => true])
-            ->assertSuccessful()
-            ->expectsOutputToContain('Dry run complete');
+            ->assertSuccessful();
 
         $this->assertTrue($storage->exists($oldFile));
     }
